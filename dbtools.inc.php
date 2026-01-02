@@ -1,19 +1,33 @@
 <?php
-error_reporting(E_ALL ^ E_DEPRECATED);
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// 🔍 驗證現在是不是 Railway
+var_dump(getenv("MYSQLHOST"));
+exit;
 
 function create_connection()
 {
-    $host = getenv("MYSQLHOST");
-    $user = getenv("MYSQLUSER");
-    $password = getenv("MYSQLPASSWORD");
-    $database = getenv("MYSQLDATABASE");
-    $port = getenv("MYSQLPORT");
+    if (getenv("MYSQLHOST")) {
+        $host     = getenv("MYSQLHOST");
+        $user     = getenv("MYSQLUSER");
+        $password = getenv("MYSQLPASSWORD");
+        $database = getenv("MYSQLDATABASE");
+        $port     = getenv("MYSQLPORT");
+    } else {
+        $host     = "localhost";
+        $user     = "root";
+        $password = "";
+        $database = "clinic";
+        $port     = 3306;
+    }
 
-    $link = mysqli_connect($host, $user, $password, $database, $port)
-        or die("資料庫連線失敗");
+    $link = mysqli_connect($host, $user, $password, $database, $port);
+
+    if (!$link) {
+        die("❌ MySQL 連線失敗：" . mysqli_connect_error());
+    }
 
     mysqli_set_charset($link, "utf8");
     return $link;
 }
-
-?>
