@@ -2,9 +2,6 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// 🔍 驗證現在是不是 Railway
-var_dump(getenv("MYSQLHOST"));
-exit;
 
 function create_connection()
 {
