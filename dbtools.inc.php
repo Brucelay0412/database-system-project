@@ -2,16 +2,18 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-
 function create_connection()
 {
+    // Railway（雲端）
     if (getenv("MYSQLHOST")) {
         $host     = getenv("MYSQLHOST");
         $user     = getenv("MYSQLUSER");
         $password = getenv("MYSQLPASSWORD");
         $database = getenv("MYSQLDATABASE");
         $port     = getenv("MYSQLPORT");
-    } else {
+    } 
+    // 本機（XAMPP）
+    else {
         $host     = "localhost";
         $user     = "root";
         $password = "";
