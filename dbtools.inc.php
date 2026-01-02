@@ -3,22 +3,17 @@ error_reporting(E_ALL ^ E_DEPRECATED);
 
 function create_connection()
 {
+    $host = getenv("MYSQLHOST");
+    $user = getenv("MYSQLUSER");
+    $password = getenv("MYSQLPASSWORD");
+    $database = getenv("MYSQLDATABASE");
+    $port = getenv("MYSQLPORT");
 
-    $link = mysqli_connect("localhost", "root", "")
-      or die("無法建立資料連接<br><br>" . mysqli_connect_error());
+    $link = mysqli_connect($host, $user, $password, $database, $port)
+        or die("資料庫連線失敗");
 
     mysqli_set_charset($link, "utf8");
-    
     return $link;
 }
 
-function execute_sql($database, $sql, $link)
-{
-    $db_selected = mysqli_select_db($link, $database)
-      or die("開啟資料庫失敗<br><br>" . mysqli_error($link));
-
-    $result = mysqli_query($link, $sql);
-    
-    return $result;
-}
 ?>
